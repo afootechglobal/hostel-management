@@ -26,7 +26,7 @@ async function getSequenceCount(counterId) {
     return await withTransaction(async (conn) => {
         // LOCK ROW
         const [rows] = await conn.query(
-            'SELECT counterValue FROM SETUP_COUNTER_TAB WHERE counterId = ? FOR UPDATE',
+            'SELECT counterValue FROM setup_counter_tab WHERE counterId = ? FOR UPDATE',
             [counterId]
         );
         if (rows.length === 0) {
@@ -39,7 +39,7 @@ async function getSequenceCount(counterId) {
         let num = rows[0].counterValue + 1;
         // UPDATE VALUE
         await conn.query(
-            'UPDATE SETUP_COUNTER_TAB SET counterValue = ? WHERE counterId = ?',
+            'UPDATE setup_counter_tab SET counterValue = ? WHERE counterId = ?',
             [num, counterId]
         );
         // FORMAT NUMBER
